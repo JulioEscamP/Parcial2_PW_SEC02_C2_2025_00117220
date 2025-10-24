@@ -59,3 +59,28 @@ export const getCuentaById = (req, res) => {
     account: null,
   });
 };
+
+export const getCuentasBalance = (req, res) => {
+  const cuentasActivas = cuentas.filter((cuenta) => cuenta.isActive === true);
+
+  if (cuentasActivas.length === 0) {
+    return res.status(404).json({
+      status: false,
+      accountBalance: 0,
+    });
+  }
+
+  const sumaTotal = cuentasActivas.reduce((total, cuenta) => {
+    
+    const balanceLimpio = cuenta.balance.replace("$", "").replace(",", "");
+
+    const valorNumerico = parseFloat(balanceLimpio);
+
+    return total + valorNumerico;
+  }, 0); // 0 es el valor inicial de total
+
+  res.status(200).json({
+    status: true,
+    accountBalance: sumaTotal,
+  });
+};
