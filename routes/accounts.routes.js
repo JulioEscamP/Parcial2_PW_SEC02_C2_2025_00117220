@@ -1,4 +1,8 @@
 import { Router } from "express";
-/* TODO import de Get */
+import { getAllCuentas } from "../controllers/acc.controller.js";
 
 const router = Router();
+
+router.get("/", getAllCuentas);
+
+export default router;
